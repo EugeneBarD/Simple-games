@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace Snake
 {
@@ -6,25 +7,27 @@ namespace Snake
     {
         static void Main(string[] args)
         {
-            const int size = 40;
+            Console.BufferHeight = 30;
 
-            for (int i = 1; i < size * 2; i += 2)
+            new Frame(new Point(2, 1, '*'), new Point(59, 28, '*'), '*').Draw();
+
+            Point startPos = new Point(6, 6, 'o');
+
+            Snake snake = new Snake(startPos, 4, Direction.Right);
+            snake.Draw();
+
+            while (true)
             {
-                if (i == 1 || i == size * 2 - 1)
+                if (Console.KeyAvailable)
                 {
-                    for (int j = 1; j <= size; j++)
-                    {
-                        new Point(i, j, '*').DrawSymbol();
-                    }
-                }
-                else
-                {
-                    new Point(i, 1, '*').DrawSymbol();
-                    new Point(i, size, '*').DrawSymbol();
-                }
-            }
+                    ConsoleKeyInfo key = Console.ReadKey();
 
-            Console.ReadLine();
+                    snake.Handling(key);
+                }
+
+                Thread.Sleep(100);
+                snake.Move();
+            }
         }
     }
 }

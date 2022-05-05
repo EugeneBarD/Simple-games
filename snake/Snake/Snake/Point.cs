@@ -8,10 +8,39 @@ namespace Snake
 {
     public class Point
     {
-        public void DrawSymbol()
+        public void Draw()
         {
             Console.SetCursorPosition(X, Y);
             Console.WriteLine(Symbol);
+        }
+
+        public void Move(int shift, Direction direction) 
+        {
+            if (direction == Direction.Up)
+            {
+                Y -= shift;
+            }
+            
+            if (direction == Direction.Down)
+            {
+                Y += shift;
+            } 
+            
+            if (direction == Direction.Right)
+            {
+                X += shift;
+            }
+            
+            if (direction == Direction.Left)
+            {
+                X -= shift;
+            }
+        }
+
+        internal void Clear()
+        {
+            Symbol = ' ';
+            Draw();
         }
 
         public Point(int x, int y, char symbol) 
@@ -21,8 +50,16 @@ namespace Snake
             Symbol = symbol;
         }
 
-        private int X { get; set; }
-        private int Y { get; set; }
+        public Point(Point point) 
+        {
+            X = point.X;
+            Y = point.Y;
+            Symbol = point.Symbol;
+        }
+
+
+        public int X { get; private set; }
+        public int Y { get; private set; }
         private char Symbol { get; set; }
     }
 }
